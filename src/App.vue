@@ -1,6 +1,6 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Zúznám a púúúzód!!!"/>
+  <HelloWorld msg="Let´s do zis!"/>
 </template>
 
 <script>
