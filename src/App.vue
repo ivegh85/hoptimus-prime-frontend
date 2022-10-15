@@ -1,26 +1,24 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Let´s do zis!"/>
+  <Navigation></Navigation>
+  <router-view/>
+  <Auctions></Auctions>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import NavigationBar from "@/components/NavigationBar";
+import Auctions from "@/views/auction/Auctions";
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    'Navigation': NavigationBar,
+    'Auctions': Auctions
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
+
 </style>
