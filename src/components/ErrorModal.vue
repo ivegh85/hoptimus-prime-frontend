@@ -1,21 +1,18 @@
 <template>
-  <!--transition funktioniert nicht so ganz-->
-  <!--transition name="fade"-->
-    <div class="vue-modal" v-show="open">
-      <!--transition name="drop-in"-->
-        <div class="vue-modal-inner" v-show="open">
-          <div class="vue-modal-content">
-            <slot />
-            <button type="button" @click="close">close</button>
-          </div>
+  <div class="vue-modal" v-show="open">
+      <div class="vue-modal-inner" v-show="open">
+        <div class="vue-modal-content">
+          <p>
+            An error occurred
+          </p>
+          <slot />
+          <button type="button" @click="close">got it</button>
         </div>
-      <!--/transition-->
-    </div>
-  <!--/transition-->
+      </div>
+  </div>
 </template>
 
 <script>
-//import { onMounted, onUnmounted} from "vue";
 
 export default {
   name: "ErrorModal",
@@ -30,17 +27,6 @@ export default {
       emit('close')
     };
 
-    /*verschwindet von selbst------------------
-    const handleKeyup = (event) => {
-      if (event.keyCode === 27){
-        close()
-      }
-    }
-
-    onMounted(() => document.addEventListener("keyup", handleKeyup))
-    onUnmounted(() => document.removeEventListener("keyup", handleKeyup))
-    ---------------------------------------------*/
-
     return { close };
   }
 };
@@ -48,9 +34,7 @@ export default {
 
 <style scoped>
 
-*,
-::before,
-::after {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -64,7 +48,7 @@ export default {
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0,0,0,0.5);
   z-index: 1;
 }
 
@@ -78,31 +62,27 @@ export default {
   background-color: #fff;
   border: 1px solid rgba(0,0,0,0.3);
   background-clip: padding-box;
-  border-radius: 0.3rem;
+  border-radius: 0.2rem;
   padding: 1rem
 }
 
-/* haut nicht so ganz hin
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
+p {
+  margin: auto;
+  font-size: large;
+  padding: 5rem 8rem;
+
 }
 
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+button {
+  margin: 0;
+  position: relative;
+  border-radius: 0.2rem;
+  background-color: deeppink;
+  width: 60px;
+  height: 30px;
+  padding-bottom: 10px;
+  display: block;
 }
 
-.drop-in-enter-active,
-.drop-in-leave-active {
-  transition: all 0.3s ease-out;
-}
 
-.drop-in-enter-from,
-.drop-in-leave-to {
-  opacity: 0;
-  transform: translateY(-50px);
-}
-
- */
 </style>

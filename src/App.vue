@@ -4,12 +4,10 @@
   <Auctions></Auctions>
 
   <button @click="isOpen = true">Show Modal</button>
+  <ErrorModal :open="isOpen" @close="isOpen = !isOpen"></ErrorModal>
 
-  <ErrorModal :open="isOpen" @close="isOpen = !isOpen">
-    <p>
-      An error occurred
-    </p>
-  </ErrorModal>
+
+
 
 </template>
 
@@ -22,17 +20,20 @@ import ErrorModal from "@/components/ErrorModal";
 
 
 
+
 export default {
   name: 'App',
   components: {
     'Navigation': NavigationBar,
     'Auctions': Auctions,
-    'ErrorModal': ErrorModal
+    'ErrorModal': ErrorModal,
+
   },
   setup(){
     const isOpen = ref(false)
     return { isOpen }
-  }
+  },
+
 }
 </script>
 
