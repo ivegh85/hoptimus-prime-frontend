@@ -17,6 +17,7 @@
     </tbody>
   </table>
 
+  <!--
   <table>
     <tr>
       {{"index"}}{{"name"}}{{"category"}}
@@ -30,6 +31,9 @@
   <li v-for="(product, index) in products" v-bind:key="product.id">
     {{ index }} - {{ strName }} - {{ product.name }} - {{ product.category }}
   </li>
+  -->
+
+
 </template>
 
 <script>
@@ -37,13 +41,12 @@ export default {
   name: "ProductsView.vue",
   data() {
     return {
-      strName: "name",
       products: [
-        { id: 1, name: "Ottakringer", category: "Beer"},
-        { id: 2, name: "Gösser", category: "Beer"},
-        { id: 3, name: "Grüner Veltliner", category: "Wine"}
+        { Id: 1, Name: "Ottakringer Bio-Zwickl", Description: "Das weltbeste Zwickl", Category: "Beer", Price: 3, Unit: "Liter"},
+        { Id: 2, Name: "Zwettler Festbock", Description: "Mit seiner tiefgoldenen Farbe...", Category: "Beer", Price: 3, Unit: "Liter"},
+        { Id: 3, Name: "Zwetschkenbrand Very Old", Description: "Dieser altgelagerte Zwetschkenbrand...", Category: "Spirits", Price: 3.5, Unit: "Case"},
       ],
-      fields: ["id", "name", "category"]
+      fields: ["Id", "Name", "Description", "Category", "Price", "Unit"]
     }
   }
 }
