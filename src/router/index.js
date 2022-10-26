@@ -5,6 +5,7 @@ import Imprint from "@/views/Imprint";
 import Help from "@/views/Help";
 import Registration from "@/views/usermgmt/Registration";
 import Login from "@/views/usermgmt/Login";
+import ProductsView from "@/views/product/ProductsView";
 import AuctionDetails from "@/views/auction/AuctionDetails";
 import NotFound from "@/views/NotFound";
 
@@ -16,6 +17,7 @@ const routes = [
         { path: '/login', name: 'Login', component: Login },
         { path: '/imprint', name: 'Imprint', component: Imprint },
         { path: '/help', name: 'Help', component: Help },
+        { path: '/productsView', name: 'ProductsView', component: ProductsView},
         { path: '/auctiondetails/:id', name: 'AuctionDetails', component: AuctionDetails },
 
         //404
