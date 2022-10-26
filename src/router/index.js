@@ -8,6 +8,7 @@ import Login from "@/views/usermgmt/Login";
 import AuctionDetails from "@/views/auction/AuctionDetails";
 import NotFound from "@/views/NotFound";
 
+
 const routes = [
         //existing routes
         { path: '/', name: 'Home',  component: Home },

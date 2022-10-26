@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Brand & image -->
+
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid">
         <div class="row">
@@ -9,7 +9,7 @@
               <img class="resize" src="../assets/beer.png" alt="Beer Icon by Freepik">
             </router-link>
           </div>
-    <!-- Nav Items -->
+
           <div class="col-11">
             <router-link class="nav-item nav-item-format" v-for="routes in links"
                          v-bind:key="routes.id"
@@ -18,7 +18,7 @@
             </router-link>
           </div>
         </div>
-    <!-- Search Bar-->
+
         <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
