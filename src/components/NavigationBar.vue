@@ -65,6 +65,11 @@ export default {
           id: 6,
           text: 'Products',
           page: '/ProductsView'
+        },
+        {
+          id: 7,
+          text: 'Auctions',
+          page: '/AuctionsView'
         }
       ]
     }
