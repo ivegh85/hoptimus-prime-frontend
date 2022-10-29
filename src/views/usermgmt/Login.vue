@@ -7,35 +7,40 @@
         <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
           <div class="card-login">
             <h1>Login Page</h1>
-            <form class="form-group" @submit.prevent="loginRequest">
-              <div>
-                <EmailInputAtom
-                    id="email"
-                    name="email"
-                    v-model="form.values.email"
-                    @blur="validation('email')"
-                    @keypress="validation('email')"
+            <Form @submit="loginRequest" :validation-schema="loginFormSchema">
+              <div class="form-group">
+                <label for="loginuname">Username</label>
+                <Field
+                    id="loginuname"
+                    name="loginuname"
+                    placeholder="Username"
                     class="form-control">
-                </EmailInputAtom>
-                <PasswordInputAtom
+                </Field>
+                <ErrorMessage name="loginuname" class="alert-danger"></ErrorMessage>
+                <label for="password">Password</label>
+                <Field
                     id="password"
                     name="password"
-                    v-model="form.values.password"
-                    @blur="validation('password')"
-                    @keypress="validation('password')"
+                    placeholder="Password"
                     class="form-control">
-                </PasswordInputAtom>
+                </Field>
+                <ErrorMessage name="password" class="alert-danger"></ErrorMessage>
                 <div class="row-mb-4">
                   <div class="form-check-inline">
                     <RememberMeBoxAtom></RememberMeBoxAtom>
                   </div>
                 </div>
                 <div class="text-center">
-                  <SubmitButtonAtom v-on:click="loginRequest"></SubmitButtonAtom>
+                  <SubmitButtonAtom></SubmitButtonAtom>
                   <NotAMemberAtom></NotAMemberAtom>
                 </div>
               </div>
-            </form>
+              <div class="form-group">
+                <div v-if="message" class="alert alert-danger" role="alert">
+                  {{ message }}
+                </div>
+              </div>
+            </Form>
           </div>
         </div>
       </div>
@@ -45,67 +50,69 @@
 </template>
 
 <script>
-import EmailInputAtom from "@/atoms/EmailInputAtom";
-import PasswordInputAtom from "@/atoms/PasswordInputAtom";
+//import EmailInputAtom from "@/atoms/EmailInputAtom";
+//import PasswordInputAtom from "@/atoms/PasswordInputAtom";
 import RememberMeBoxAtom from "@/atoms/RememberMeBoxAtom";
 import SubmitButtonAtom from "@/atoms/SubmitButtonAtom";
 import NotAMemberAtom from "@/atoms/NotAMemberAtom";
-import axios from "axios";
-import {object, string} from 'yup';
+import * as yup from "yup";
+import { Form, Field, ErrorMessage } from "vee-validate";
+
+
 
 //schema for validation
-const loginFormSchema = object().shape({
-  email: string().email().required(),
-  password: string().min(8).required(),
-});
+
 
 export default {
 // eslint-disable-next-line vue/multi-word-component-names
   name: "Login.vue",
-  data: () => ({
-    form: {
-      values: {
-        email: '',
-        password: '',
-      },
-      errors: {
-        email: '',
-        password: '',
-      }
+  data () {
+    const loginFormSchema = yup.object().shape({
+      loginuname: yup.string().min(3, "Min 3 Characters" ).max(20, "Max 20 Characters" ).required("Email is mandatory!"),
+      password: yup.string().min(8, "Min 8 Characters").required("Password is mandatory!"),
+    });
+    return {
+      loading: false,
+      message: "",
+      loginFormSchema,
+    };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    },
+  },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push("/home");
     }
-  }),
+  },
   methods: {
-    validation(input) {
-      loginFormSchema.validateAt(input, this.form.values)
-          .then(() => {
-            this.form.errors[input] = "";
-              })
-          .catch(err => {
-            this.form.errors[input] = err.message;
-          })
-    },
-    async loginRequest() {
-      const auth = {
-        email: this.form.values.email, password: this.form.values.password
-      };
-      //placeholder
-      const url = 'https://auctionplatformbackend.stockidev.com/users/{id}';
-      try {
-        const res = await axios.get(url, { auth }).then(res => res.data);
-        console.log(res)
-      } catch (err) {
-        this.error = err.message
-        console.log(this.error);
-      }
-    },
+    loginRequest(user) {
 
+      this.loading = true;
+
+      this.$store.dispatch("auth/login", user).then (
+          () => {
+            this.$router.push("/home");
+          },
+          (error) => {
+            this.loading = false;
+            this.message = (error.response && error.response.data && error.response.data.message) ||
+                error.message || error.toString();
+          }
+      )
+    },
   },
   components: {
     'SubmitButtonAtom': SubmitButtonAtom,
-    'PasswordInputAtom': PasswordInputAtom,
-    'EmailInputAtom': EmailInputAtom,
+    //'PasswordInputAtom': PasswordInputAtom,
+    //'EmailInputAtom': EmailInputAtom,
     'RememberMeBoxAtom': RememberMeBoxAtom,
-    'NotAMemberAtom': NotAMemberAtom
+    'NotAMemberAtom': NotAMemberAtom,
+    'Form': Form,
+    'ErrorMessage': ErrorMessage,
+    'Field': Field
   },
 }
 
