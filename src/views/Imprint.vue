@@ -22,7 +22,7 @@
       <div class="col-lg-6">
         <p>
           <strong>Email:</strong> &ensp;&ensp;
-          <a href="">contact@hoptimus-prime.at</a><br>
+          <a href="mailto:contact@hoptimus-prime.at">contact@hoptimus-prime.at</a><br>
           <strong>Web:</strong> &ensp;&ensp;&nbsp;
           <a href="">https://www.hoptimusprime.at</a><br>
           <strong>Phone:</strong> &nbsp;
@@ -35,9 +35,9 @@
         Contact
       </h3>
       <p>
-        Sylvie Pfeiffer: &ensp;&ensp;&nbsp;<a href="">s.pfeiffer@hoptimus-prime.at</a><br>
-        Philip Stockerer: &nbsp;<a href="">p.stockerer@hoptimus-prime.at</a><br>
-        István Végh: &ensp;&ensp;&ensp;&ensp;<a href="">i.vegh@hoptimus-prime.at</a>
+        Sylvie Pfeiffer: &ensp;&ensp;&nbsp;<a href="mailto:s.pfeiffer@hoptimus-prime.at">s.pfeiffer@hoptimus-prime.at</a><br>
+        Philip Stockerer: &nbsp;<a href="mailto:p.stockerer@hoptimus-prime.at">p.stockerer@hoptimus-prime.at</a><br>
+        István Végh: &ensp;&ensp;&ensp;&ensp;<a href="mailto:i.vegh@hoptimus-prime.at">i.vegh@hoptimus-prime.at</a>
       </p>
     </div>
     <div class="row">
@@ -69,9 +69,7 @@ h3, h4 {
 }
 
 .row {
-  padding-left: 80px;
-  padding-top: 20px;
-  padding-bottom: 10px;
+  padding: 20px 80px 10px;
 }
 
 .col-12 {
