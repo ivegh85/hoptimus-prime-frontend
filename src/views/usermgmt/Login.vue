@@ -6,7 +6,7 @@
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
           <div class="card-login">
-            <h1>Login Page</h1>
+            <h1>Sign in</h1>
             <Form @submit="loginRequest" :validation-schema="loginFormSchema">
               <div class="form-group">
                 <label for="loginuname">Username</label>
@@ -50,23 +50,18 @@
 </template>
 
 <script>
-//import EmailInputAtom from "@/atoms/EmailInputAtom";
-//import PasswordInputAtom from "@/atoms/PasswordInputAtom";
 import RememberMeBoxAtom from "@/atoms/RememberMeBoxAtom";
 import SubmitButtonAtom from "@/atoms/SubmitButtonAtom";
 import NotAMemberAtom from "@/atoms/NotAMemberAtom";
 import * as yup from "yup";
 import { Form, Field, ErrorMessage } from "vee-validate";
-
-
-
-//schema for validation
-
+import router from "@/router";
 
 export default {
 // eslint-disable-next-line vue/multi-word-component-names
   name: "Login.vue",
   data () {
+    //schema for validation
     const loginFormSchema = yup.object().shape({
       loginuname: yup.string().min(3, "Min 3 Characters" ).max(20, "Max 20 Characters" ).required("Email is mandatory!"),
       password: yup.string().min(8, "Min 8 Characters").required("Password is mandatory!"),
@@ -82,11 +77,6 @@ export default {
       return this.$store.state.auth.status.loggedIn;
     },
   },
-  created() {
-    if (this.loggedIn) {
-      this.$router.push("/home");
-    }
-  },
   methods: {
     loginRequest(user) {
 
@@ -94,7 +84,7 @@ export default {
 
       this.$store.dispatch("auth/login", user).then (
           () => {
-            this.$router.push("/home");
+            router.push("/home");
           },
           (error) => {
             this.loading = false;
@@ -106,8 +96,6 @@ export default {
   },
   components: {
     'SubmitButtonAtom': SubmitButtonAtom,
-    //'PasswordInputAtom': PasswordInputAtom,
-    //'EmailInputAtom': EmailInputAtom,
     'RememberMeBoxAtom': RememberMeBoxAtom,
     'NotAMemberAtom': NotAMemberAtom,
     'Form': Form,

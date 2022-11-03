@@ -5,9 +5,10 @@
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
           <div class="card-registration" v-if="!successful">
-            <h1>Registration</h1>
+            <h1 class="back-off text-center">Sign up</h1>
             <Form @submit="registrationRequest" :validation-schema="registrationFormSchema">
               <div class="form-group">
+                <label for="fname">First Name</label>
                 <Field
                     id="fname"
                     name="fname"
@@ -15,6 +16,7 @@
                     class="form-control">
                 </Field>
                 <ErrorMessage name="fname" class="error-feedback"></ErrorMessage>
+                <label for="lname">Last Name</label>
                 <Field
                     id="lname"
                     name="lname"
@@ -22,6 +24,7 @@
                     class="form-control">
                 </Field>
                 <ErrorMessage name="lname" class="error-feedback"></ErrorMessage>
+                <label for="uname">User Name</label>
                 <Field
                     id="uname"
                     name="uname"
@@ -29,6 +32,7 @@
                     class="form-control">
                 </Field>
                 <ErrorMessage name="uname" class="error-feedback"></ErrorMessage>
+                <label for="email">Email</label>
                 <Field
                     id="email"
                     name="email"
@@ -36,13 +40,24 @@
                     class="form-control">
                 </Field>
                 <ErrorMessage name="email" class="error-feedback"></ErrorMessage>
+                <label for="password">Password</label>
                 <Field
                     id="password"
+                    type="password"
                     name="password"
                     placeholder="Password"
                     class="form-control">
                 </Field>
                 <ErrorMessage name="password" class="error-feedback"></ErrorMessage>
+                <label for="confirmPassword">Confirm Password</label>
+                <Field
+                    id="confirmPassword"
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Password"
+                    class="form-control">
+                </Field>
+                <ErrorMessage name="confirmPassword" class="error-feedback"></ErrorMessage>
                 <div class="row-mb-4">
                   <div class="text-center">
                     <SubmitButtonAtom></SubmitButtonAtom>
@@ -67,11 +82,6 @@
 
 <script>
 import SubmitButtonAtom from "@/atoms/SubmitButtonAtom";
-//import PasswordInputAtom from "@/atoms/PasswordInputAtom";
-//import EmailInputAtom from "@/atoms/EmailInputAtom";
-//import FirstNameInputAtom from "@/atoms/FirstNameInputAtom";
-//import LastNameInputAtom from "@/atoms/LastNameInputAtom";
-//import UserNameInputAtom from "@/atoms/UserNameInputAtom";
 import AlreadyAMemberAtom from "@/atoms/AlreadyAMemberAtom";
 import * as yup from "yup";
 import {Form, Field, ErrorMessage} from "vee-validate";
@@ -86,8 +96,9 @@ export default {
       fname: yup.string().required("Firstname is required!"),
       lname: yup.string().required("Lastname is required!"),
       uname: yup.string().min(2, "Min 2 Characters").max(15, "Max 15 characters").required("Username is required!"),
-      email: yup.string().email("Email is invalid!").required("Email is required!"),
+      email: yup.string().email("Email is invalid").required("Email is required"),
       password: yup.string().min(8, "Min 8 Characters").max(20, "Max 20 characters").required(),
+      confirmPassword: yup.string().oneOf([yup.ref('password'), null], "Passwords must match")
     });
     return {
       successful: false,
@@ -98,22 +109,21 @@ export default {
   },
   computed: {
     loggedIn() {
-      return this.$store?.state.auth.status.loggedIn;
+      return this.$store.state.auth.status.loggedIn;
     },
   },
+  /*
   mounted() {
     if (this.loggedIn) {
-      this.$router.push("/home");
+      router.push("/home");
     }
   },
+   */
   methods: {
     registrationRequest(user) {
       this.message = "";
       this.successful = false;
       this.loading = true;
-
-      console.log(user);
-      console.log(this.$store)
 
       this.$store.dispatch( "auth/register" , user).then(
           function(data) {
@@ -133,11 +143,6 @@ export default {
   },
     components: {
       'SubmitButtonAtom': SubmitButtonAtom,
-      //'PasswordInputAtom': PasswordInputAtom,
-      //'EmailInputAtom': EmailInputAtom,
-      //'FirstNameAtom': FirstNameInputAtom,
-      //'LastNameAtom': LastNameInputAtom,
-      //'UserNameAtom': UserNameInputAtom,
       'AlreadyAMemberAtom': AlreadyAMemberAtom,
       'Form': Form,
       'ErrorMessage': ErrorMessage,
@@ -161,6 +166,10 @@ export default {
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, .125);
   border-radius: 0.25rem;
+}
+
+.back-off {
+  margin-bottom: 30px;
 }
 
 .form-group {
