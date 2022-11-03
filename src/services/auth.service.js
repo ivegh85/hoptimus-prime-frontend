@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://auctionplatformbackend.stockidev.com/api/auth/';
-
+const API_URL = 'https://auctionplatformbackend.stockidev.com/api/auth/';
 
 class AuthService {
     login(user) {
