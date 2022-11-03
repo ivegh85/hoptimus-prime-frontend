@@ -44,22 +44,22 @@ export default {
         {
           id: 2,
           text: 'Registration',
-          page: '/Registration'
+          page: '/registration'
         },
         {
           id: 3,
           text: 'Login',
-          page: '/Login'
+          page: '/login'
         },
         {
           id: 4,
           text: 'Imprint',
-          page: '/Imprint'
+          page: '/imprint'
         },
         {
           id: 5,
           text: 'Help',
-          page: '/Help'
+          page: '/help'
         }
       ]
     }

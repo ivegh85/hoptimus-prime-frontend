@@ -14,9 +14,11 @@
     "bootstrap-vue": "^2.22.0",
     "core-js": "^3.8.3",
     "popper.js": "^1.16.1",
+    "vee-validate": "^4.7.1",
     "vue": "^3.2.13",
     "vue-cli": "^2.9.6",
     "vue-router": "^4.1.5",
+    "vuex": "^4.1.0",
     "webpack": "^5.74.0",
     "yup": "^0.32.11"
   },

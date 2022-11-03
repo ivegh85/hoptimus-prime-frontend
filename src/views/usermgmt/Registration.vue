@@ -4,58 +4,75 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
-          <div class="card-registration">
-            <h1>Registration</h1>
-            <form class="form-group" @submit.prevent="registrationRequest">
-              <div>
-                <FirstNameAtom
+          <div class="card-registration" v-if="!successful">
+            <h1 class="back-off text-center">Sign up</h1>
+            <Form @submit="registrationRequest" :validation-schema="registrationFormSchema">
+              <div class="form-group">
+                <label for="fname">First Name</label>
+                <Field
                     id="fname"
                     name="fname"
-                    v-model="form.values.fname"
-                    @blur="validation('fname')"
-                    @keypress="validation('fname')"
+                    placeholder="First Name"
                     class="form-control">
-                </FirstNameAtom>
-                <LastNameAtom
+                </Field>
+                <ErrorMessage name="fname" class="error-feedback"></ErrorMessage>
+                <label for="lname">Last Name</label>
+                <Field
                     id="lname"
                     name="lname"
-                    v-model="form.values.lname"
-                    @blur="validation('lname')"
-                    @keypress="validation('lname')"
+                    placeholder="Last Name"
                     class="form-control">
-                </LastNameAtom>
-                <UserNameAtom
+                </Field>
+                <ErrorMessage name="lname" class="error-feedback"></ErrorMessage>
+                <label for="uname">User Name</label>
+                <Field
                     id="uname"
                     name="uname"
-                    v-model="form.values.uname"
-                    @blur="validation('uname')"
-                    @keypress="validation('uname')"
+                    placeholder="User Name"
                     class="form-control">
-                </UserNameAtom>
-                <EmailInputAtom
+                </Field>
+                <ErrorMessage name="uname" class="error-feedback"></ErrorMessage>
+                <label for="email">Email</label>
+                <Field
                     id="email"
                     name="email"
-                    v-model="form.values.email"
-                    @blur="validation('email')"
-                    @keypress="validation('email')"
+                    placeholder="Email"
                     class="form-control">
-                </EmailInputAtom>
-                <PasswordInputAtom
+                </Field>
+                <ErrorMessage name="email" class="error-feedback"></ErrorMessage>
+                <label for="password">Password</label>
+                <Field
                     id="password"
+                    type="password"
                     name="password"
-                    v-model="form.values.password"
-                    @blur="validation('password')"
-                    @keypress="validation('password')"
+                    placeholder="Password"
                     class="form-control">
-                </PasswordInputAtom>
+                </Field>
+                <ErrorMessage name="password" class="error-feedback"></ErrorMessage>
+                <label for="confirmPassword">Confirm Password</label>
+                <Field
+                    id="confirmPassword"
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Password"
+                    class="form-control">
+                </Field>
+                <ErrorMessage name="confirmPassword" class="error-feedback"></ErrorMessage>
                 <div class="row-mb-4">
-                <div class="text-center">
-                  <SubmitButtonAtom v-on:click="registrationRequest"></SubmitButtonAtom>
-                  <AlreadyAMemberAtom></AlreadyAMemberAtom>
-                </div>
+                  <div class="text-center">
+                    <SubmitButtonAtom></SubmitButtonAtom>
+                    <AlreadyAMemberAtom></AlreadyAMemberAtom>
+                  </div>
                 </div>
               </div>
-            </form>
+            </Form>
+            <div
+                v-if="message"
+                class="alert"
+                :class="successful ? 'alert-success' : 'alert-danger'"
+            >
+              {{ message }}
+            </div>
           </div>
         </div>
       </div>
@@ -65,83 +82,71 @@
 
 <script>
 import SubmitButtonAtom from "@/atoms/SubmitButtonAtom";
-import PasswordInputAtom from "@/atoms/PasswordInputAtom";
-import EmailInputAtom from "@/atoms/EmailInputAtom";
-import FirstNameInputAtom from "@/atoms/FirstNameInputAtom";
-import LastNameInputAtom from "@/atoms/LastNameInputAtom";
-import UserNameInputAtom from "@/atoms/UserNameInputAtom";
 import AlreadyAMemberAtom from "@/atoms/AlreadyAMemberAtom";
-import {object, string} from "yup";
-import axios from "axios";
+import * as yup from "yup";
+import {Form, Field, ErrorMessage} from "vee-validate";
 
-//schema for validation
-const registrationFormSchema = object().shape({
-  fname: string().required(),
-  lname: string().required(),
-  uname: string().required(),
-  email: string().email().required(),
-  password: string().min(8).required(),
-});
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Registration.vue",
-  data: () => ({
-    form: {
-      values: {
-        fname: '',
-        lname: '',
-        uname: '',
-        email: '',
-        password: '',
-      },
-      errors: {
-        fname: '',
-        lname: '',
-        uname: '',
-        email: '',
-        password: '',
-      }
+  data() {
+    //schema for validation
+    const registrationFormSchema = yup.object().shape({
+      fname: yup.string().required("Firstname is required!"),
+      lname: yup.string().required("Lastname is required!"),
+      uname: yup.string().min(2, "Min 2 Characters").max(15, "Max 15 characters").required("Username is required!"),
+      email: yup.string().email("Email is invalid").required("Email is required"),
+      password: yup.string().min(8, "Min 8 Characters").max(20, "Max 20 characters").required(),
+      confirmPassword: yup.string().oneOf([yup.ref('password'), null], "Passwords must match")
+    });
+    return {
+      successful: false,
+      loading: false,
+      message: "",
+      registrationFormSchema,
+    };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    },
+  },
+  /*
+  mounted() {
+    if (this.loggedIn) {
+      router.push("/home");
     }
-  }),
+  },
+   */
   methods: {
-    validation(input) {
-      registrationFormSchema.validateAt(input, this.form.values)
-          .then(() => {
-            this.form.errors[input] = "";
-          })
-          .catch(err => {
-            this.form.errors[input] = err.message;
-          })
-    },
-    async registrationRequest() {
-      const reg = {
-        fname: this.form.values.fname,
-        lname: this.form.values.lname,
-        uname: this.form.values.uname,
-        email: this.form.values.email,
-        password: this.form.values.password
-      };
-      //placeholder
-      const url = 'https://auctionplatformbackend.stockidev.com/users';
-      try {
-        const res = await axios.post(url, { reg }).then(res => res.data);
-        console.log(res)
-      } catch (err) {
-        this.error = err.message
-        console.log(this.error);
-      }
-    },
+    registrationRequest(user) {
+      this.message = "";
+      this.successful = false;
+      this.loading = true;
 
+      this.$store.dispatch( "auth/register" , user).then(
+          function(data) {
+            this.message = data.message;
+            this.successful = true;
+            this.loading = false;
+          },
+          (error) => {
+            this.message = (
+                error.response && error.response.data && error.response.data.message
+            ) || error.message || error.toString();
+            this.successful = false;
+            this.loading = false;
+          }
+      )
+    },
   },
     components: {
       'SubmitButtonAtom': SubmitButtonAtom,
-      'PasswordInputAtom': PasswordInputAtom,
-      'EmailInputAtom': EmailInputAtom,
-      'FirstNameAtom': FirstNameInputAtom,
-      'LastNameAtom': LastNameInputAtom,
-      'UserNameAtom': UserNameInputAtom,
       'AlreadyAMemberAtom': AlreadyAMemberAtom,
+      'Form': Form,
+      'ErrorMessage': ErrorMessage,
+      'Field': Field,
     },
   };
 </script>
@@ -159,15 +164,19 @@ export default {
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0,0,0,.125);
+  border: 1px solid rgba(0, 0, 0, .125);
   border-radius: 0.25rem;
+}
+
+.back-off {
+  margin-bottom: 30px;
 }
 
 .form-group {
   margin-bottom: 20px;
 }
 
-.form-control{
+.form-control {
   margin-bottom: 20px;
 }
 
