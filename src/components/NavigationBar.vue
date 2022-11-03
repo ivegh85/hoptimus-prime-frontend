@@ -60,6 +60,16 @@ export default {
           id: 5,
           text: 'Help',
           page: '/help'
+        },
+        {
+          id: 6,
+          text: 'Products',
+          page: '/ProductsView'
+        },
+        {
+          id: 7,
+          text: 'Auctions',
+          page: '/AuctionsView'
         }
       ]
     }
