@@ -1,14 +1,18 @@
 <template>
   <div class="vue-modal" v-show="open">
-      <div class="vue-modal-inner" v-show="open">
-        <div class="vue-modal-content">
-          <p>
-            An error occurred
-          </p>
-          <slot />
-          <button type="button" @click="close">got it</button>
+    <div class="vue-modal-inner" v-show="open">
+      <div class="vue-modal-content ">
+        <div class="semi-bold little-space">
+          <span> {{ title }} </span>
+        </div>
+        <div class="little-space">
+          <slot></slot>
+        </div>
+        <div>
+          <button type="button" @click="close">Confirm</button>
         </div>
       </div>
+    </div>
   </div>
 </template>
 
@@ -21,13 +25,17 @@ export default {
       type: Boolean,
       required: true,
     },
+    title: {
+      type: String,
+      required: true,
+    }
   },
-  setup (_, { emit }) {
+  setup(_, {emit}) {
     const close = () => {
       emit('close')
     };
 
-    return { close };
+    return {close};
   }
 };
 </script>
@@ -48,7 +56,7 @@ export default {
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
 
@@ -60,10 +68,10 @@ export default {
 .vue-modal-content {
   position: relative;
   background-color: #fff;
-  border: 1px solid rgba(0,0,0,0.3);
+  border: 1px solid rgba(0, 0, 0, 0.3);
   background-clip: padding-box;
   border-radius: 0.2rem;
-  padding: 1rem
+  padding: 1rem;
 }
 
 p {
@@ -73,12 +81,20 @@ p {
 
 }
 
+.semi-bold {
+  font-weight: 600;
+}
+
+.little-space{
+  margin-bottom: 30px;
+}
+
 button {
   margin: 0;
   position: relative;
   border-radius: 0.2rem;
-  background-color: deeppink;
-  width: 60px;
+  background-color: #F4E98C;
+  width: auto;
   height: 30px;
   padding-bottom: 10px;
   display: block;

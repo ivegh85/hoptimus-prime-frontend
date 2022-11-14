@@ -6,6 +6,9 @@
 <script>
 export default {
   name: "AuctionDetails.vue",
+  props: {
+    auction: Object,
+  }
 }
 </script>
 
