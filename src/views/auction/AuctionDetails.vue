@@ -1,6 +1,5 @@
 <template>
-  <h1>Auction Details</h1>
-
+  <h1>Auction Details </h1>
 </template>
 
 <script>
