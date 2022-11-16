@@ -1,7 +1,7 @@
 <template>
 
   <!-- toggle nur vorübergehend zum testen -->
-  <table id="productsTable" class="table table-bordered table-striped" @click="toggleTest" v-if="isVisible">
+  <table id="productsTable" class="table table-bordered table-striped" >  <!--@click="toggleTest" v-if="isVisible"-->
     <thead>
       <tr>
         <th v-for="field in fields" :key="field">
@@ -21,19 +21,36 @@
   </table>
 
 
+  <!--
+  <div class="card-body">
+    <ul>
+      <li v-for="product in products" v-bind:key="product">
+        {{products.id}}
+      </li>
+    </ul>
+  </div>
+  -->
+
+
 </template>
 
 <script>
-import axios from "axios";
+//import axios from "axios";
 
 export default {
   name: "ProductsView.vue",
-  mounted(){
-    console.log("mounted...")
-    axios.get("https://auctionplatformbackend.stockidev.com/products").then(response => {
-      this.products = response.data
-    })
+  /*data() {
+    return {
+      //fields: ["Id", "Name", "Description", "Category", "Price", "Unit"],
+      products: []
+    }
   },
+  created(){
+    console.log("created...")
+    axios.get("https://auctionplatformbackend.stockidev.com/products").then(response =>
+      this.products = response.data
+    );
+  },*/
   data: () => ({
     isVisible: true,
     //return {
@@ -42,7 +59,7 @@ export default {
         { Id: 2, Name: "Zwettler Festbock", Description: "Mit seiner tiefgoldenen Farbe...", Category: "Beer", Price: 3, Unit: "Liter"},
         { Id: 3, Name: "Zwetschkenbrand Very Old", Description: "Dieser altgelagerte Zwetschkenbrand...", Category: "Spirits", Price: 3.5, Unit: "Case"},
       ],
-      //products: null,
+
       fields: ["Id", "Name", "Description", "Category", "Price", "Unit"]
     //}
   }),

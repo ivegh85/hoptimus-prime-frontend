@@ -1,33 +1,24 @@
 <template>
   <div>
-
     <nav class="navbar navbar-expand-lg">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="container-fluid">
-        <div class="row collapse navbar-collapse" id="navbarToggler">
-          <div class="col-1 ">
-            <router-link class="navbar-brand" :to="{ name: 'Home' }">
-              <img class="resize" src="../assets/beer.png" alt="Beer Icon by Freepik">
-            </router-link>
-          </div>
-
-          <div class="col-11 collapse navbar-collapse ">
+        <router-link class="navbar-brand" :to="{ name: 'Home' }">
+          <img class="resize" src="../assets/beer.png" alt="Beer Icon by Freepik">
+        </router-link>
+          <div class="collapse navbar-collapse " id="navbarToggler">
             <router-link class="nav-item nav-item-format navbar-nav mr-auto mt-2 mt-lg-0 " v-for="routes in links"
                          v-bind:key="routes.id"
                          :to="`${routes.page}`">
               {{ routes.text }}
             </router-link>
           </div>
-        </div>
         <form class="collapse navbar-collapse" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
-      </div>
     </nav>
-
   </div>
 </template>
 
