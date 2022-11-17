@@ -12,8 +12,8 @@
     <tbody>
       <tr v-for="product in products" v-bind:key="product">
         <td v-for="field in fields" :key="field">
-          <router-link v-if="product.Name" to="/ProductDetails">
-           {{ product[field] }}
+          <router-link v-if="product.Name" :to="{ name: 'ProductDetails', params: { id: product.Id, name: product.Name, description: product.Description }}">
+            {{ product[field] }}
           </router-link>
         </td>
       </tr>
@@ -67,7 +67,8 @@ export default {
     toggleTest() {
       this.isVisible = !this.isVisible;
     }
-  }
+  },
+
 
 }
 </script>

@@ -20,7 +20,7 @@ const routes = [
         { path: '/imprint', name: 'Imprint', component: Imprint },
         { path: '/help', name: 'Help', component: Help },
         { path: '/productsView', name: 'ProductsView', component: ProductsView},
-        { path: '/productdetails', name: 'ProductDetails', component: ProductDetails},
+        { path: '/productdetails/:id/:name', name: 'ProductDetails', component: ProductDetails, props: true},
         { path: '/auctionsView', name: 'AuctionsView', component: AuctionsView},
         { path: '/auctiondetails/:id', name: 'AuctionDetails', component: AuctionDetails },
 
