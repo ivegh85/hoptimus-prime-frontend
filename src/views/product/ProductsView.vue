@@ -19,7 +19,7 @@
     </tbody>
   </table-->
 
-  <div v-for="product in products" :key="product.id">
+  <!--div v-for="product in products" :key="product.id">
     <div>
       <span>
         ID: {{ product.productId }} NAME: {{ product.name }}
@@ -27,6 +27,10 @@
         PRICE: {{ product.price }} UNIT: {{ product.unit }}
       </span>
     </div>
+  </div-->
+
+  <div v-for="product in products" :key="product.id">
+    <router-link :to="{ name: 'ProductDetails', params: { id: product.productId, name: product.name, description: product.description }}">{{ product.name }} +++ {{ product.description }}</router-link>
   </div>
 
 
