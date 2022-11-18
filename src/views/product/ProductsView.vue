@@ -69,24 +69,10 @@ export default {
        ], */
 
       fields: ["id", "name", "description", "category", "price", "unit"],
-      //successful: false,
-      //loading: false,
-      //message: "",
+
     }
 
   },
-  /*computed: {
-    loggedIn() {
-      return this.$store.state.products.status.authorized;
-    },
-    productsList() {
-      return this.$store.state.product.products;
-    }
-  },*/
-  /*computed: {
-    wtf() {
-      return this.$store.state.prod.status.wtf;
-    },*/
 
     mounted() {
       console.log("mounted")
@@ -110,30 +96,7 @@ export default {
 
 
     },
-    /*methods: {
-      getProductsRequest(products) {
-        this.message = "";
-        this.successful = false;
-        this.loading = true;
 
-        this.$store.dispatch("prod/getProducts", products).then(
-            (data) => {
-              this.message = data.message;
-              this.successful = true;
-              this.loading = false;
-            },
-            (error) => {
-              this.message = (error.response && error.response.data &&
-                      error.response.data.message) ||
-                  error.message ||
-                  error.toString();
-              this.successful = false;
-              this.loading = false;
-            }
-        )
-      }
-
-    }*/
 
 
 }
