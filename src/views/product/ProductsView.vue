@@ -1,54 +1,24 @@
 <template>
 
-  <!--table id="productsTable" class="table table-bordered table-striped" >
+  <table id="productsTable" class="table table-bordered table-striped" >
     <thead>
       <tr>
-        <th v-for="field in fields" :key="field">
-          {{ field }}
+        <th v-for="fieldsHeader in fieldsHeader" :key="fieldsHeader">
+          {{ fieldsHeader }}
         </th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="product in products" v-bind:key="product.id">
         <td v-for="field in fields" :key="field">
-          <router-link v-if="product.Name" :to="{ name: 'ProductDetails', params: { id: product.Id, name: product.Name, description: product.Description }}">
-            {{ product[field] }}
+          <router-link v-if="product.name" :to="{ name: 'ProductDetails', params: { id: product.productId, name: product.name, description: product.description }}">
+            {{ product[field] }}   <!--JSON.stringify(field.keys)-->
           </router-link>
         </td>
       </tr>
     </tbody>
-  </table-->
+  </table>
 
-  <!--div v-for="product in products" :key="product.id">
-    <div>
-      <span>
-        ID: {{ product.productId }} NAME: {{ product.name }}
-        DESCRIPTION: {{ product.description }} CATEGORY: {{ product.category }}
-        PRICE: {{ product.price }} UNIT: {{ product.unit }}
-      </span>
-    </div>
-  </div-->
-
-  <div v-for="product in products" :key="product.id">
-    <router-link :to="{ name: 'ProductDetails', params: { id: product.productId, name: product.name, description: product.description }}">{{ product.name }} +++ {{ product.description }}</router-link>
-  </div>
-
-
-  <button @click="getProductsRequest">Get Products</button>
-  <!--div>
-   {{ products }}
-  </div-->
-
-
-  <!--
-  <div class="card-body">
-    <ul>
-      <li v-for="product in products" v-bind:key="product">
-        {{products.id}}
-      </li>
-    </ul>
-  </div>
-  -->
 
 
 </template>
@@ -72,7 +42,19 @@ export default {
          { Id: 3, Name: "Zwetschkenbrand Very Old", Description: "Dieser altgelagerte Zwetschkenbrand...", Category: "Spirits", Price: 3.5, Unit: "Case"},
        ], */
 
-      fields: ["id", "name", "description", "category", "price", "unit"],
+      //möglich ohne exakt dieselbe schreibweise wie in datenbank
+      fieldsHeader:
+        {
+          productId: "ID",
+          name: "Name",
+          description: "Description",
+          category: "Category",
+          price: "Price",
+          unit: "Unit"
+
+        },
+      fields: ["productId", "name", "description", "category", "price", "unit"],
+      //fields: ["ProductId", "Name", "Description", "Category", "Price", "Unit"], toLowerCase() funktioniert bei productId nicht
 
     }
 
@@ -108,9 +90,14 @@ export default {
 
 <style scoped>
 
-td a {
+a {
   text-decoration: none;
   color: black;
+}
+
+a:hover{
+  text-decoration: none;
+  color: #cd5c5c;
 }
 
 </style>
