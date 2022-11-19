@@ -10,6 +10,7 @@ import AuctionDetails from "@/views/auction/AuctionDetails";
 import NotFound from "@/views/NotFound";
 import AuctionsView from "@/views/auction/AuctionsView";
 import ProductDetails from "@/views/product/ProductDetails";
+import ProductEdit from "@/views/product/ProductEdit";
 
 
 const routes = [
@@ -21,6 +22,7 @@ const routes = [
         { path: '/help', name: 'Help', component: Help },
         { path: '/productsView', name: 'ProductsView', component: ProductsView},
         { path: '/productdetails/:id/:name', name: 'ProductDetails', component: ProductDetails, props: true},
+        { path: '/productedit/:id', name: 'ProductEdit', component: ProductEdit, props: true},
         { path: '/auctionsView', name: 'AuctionsView', component: AuctionsView},
         { path: '/auctiondetails/:id', name: 'AuctionDetails', component: AuctionDetails },
 

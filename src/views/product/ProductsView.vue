@@ -12,8 +12,14 @@
       <tr v-for="product in products" v-bind:key="product.id">
         <td v-for="field in fields" :key="field">
           <router-link v-if="product.name" :to="{ name: 'ProductDetails', params: { id: product.productId, name: product.name, description: product.description }}">
-            {{ product[field] }}   <!--JSON.stringify(field.keys)-->
+            {{ product[field] }}
           </router-link>
+        </td>
+        <td>
+          <router-link class="btn btn-success" :to="{ name: 'ProductEdit', params: { id: product.productId }}">edit</router-link>
+        </td>
+        <td>
+          <button class="btn btn-danger" @click="deleteProduct(product.productId)">delete</button>
         </td>
       </tr>
     </tbody>
@@ -24,9 +30,6 @@
 </template>
 
 <script>
-//import axios from "axios";
-
-
 
 import ProductService from "@/services/product.service";
 
@@ -36,12 +39,6 @@ export default {
   data() {
     return {
       products: [],
-      /* products: [
-         { Id: 1, Name: "Ottakringer Bio-Zwickl", Description: "Das weltbeste Zwickl", Category: "Beer", Price: 3, Unit: "Liter"},
-         { Id: 2, Name: "Zwettler Festbock", Description: "Mit seiner tiefgoldenen Farbe...", Category: "Beer", Price: 3, Unit: "Liter"},
-         { Id: 3, Name: "Zwetschkenbrand Very Old", Description: "Dieser altgelagerte Zwetschkenbrand...", Category: "Spirits", Price: 3.5, Unit: "Case"},
-       ], */
-
       //möglich ohne exakt dieselbe schreibweise wie in datenbank
       fieldsHeader:
         {
@@ -54,34 +51,41 @@ export default {
 
         },
       fields: ["productId", "name", "description", "category", "price", "unit"],
-      //fields: ["ProductId", "Name", "Description", "Category", "Price", "Unit"], toLowerCase() funktioniert bei productId nicht
-
     }
-
   },
-
-    mounted() {
-      console.log("mounted")
+    mounted:
+      function() {
+        console.log("mounted")
+        this.getProducts();
+      },
+  methods: {
+    getProducts() {
       ProductService.getProducts()
           .then(
-          (response) => {
-            console.log(response)
-            //this.products = response.data;
-            //this.products = JSON.stringify(response);
-            //this.products = JSON.stringify(response.data);
-            this.products = response;
-          },
-          (error) => {
-            this.products = (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-          }
-      )
-
-
+              (response) => {
+                console.log(response)
+                //this.products = response.data;
+                //this.products = JSON.stringify(response);
+                //this.products = JSON.stringify(response.data);
+                this.products = response;
+              },
+              (error) => {
+                this.products = (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+              }
+          )
     },
+    deleteProduct(id) {
+      console.log("delete function called")
+      ProductService.deleteProduct(id);
+      //funktioniert nicht perfekt. ladet erst
+      //bei zweiten delete click die table neu
+      this.getProducts();
+    }
+  }
 
 
 
