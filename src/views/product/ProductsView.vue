@@ -19,7 +19,7 @@
           <router-link class="btn btn-success" :to="{ name: 'ProductEdit', params: { id: product.productId }}">edit</router-link>
         </td>
         <td>
-          <button class="btn btn-danger" @click="deleteProduct(product.productId)">delete</button>
+          <button class="btn btn-danger" @click="deleteProduct(product.productId, /*product.id*/)">delete</button>
         </td>
       </tr>
     </tbody>
@@ -53,7 +53,8 @@ export default {
       fields: ["productId", "name", "description", "category", "price", "unit"],
     }
   },
-    mounted:
+
+  mounted:
       function() {
         console.log("mounted")
         this.getProducts();
@@ -63,7 +64,7 @@ export default {
       ProductService.getProducts()
           .then(
               (response) => {
-                console.log(response)
+                //console.log(response)
                 //this.products = response.data;
                 //this.products = JSON.stringify(response);
                 //this.products = JSON.stringify(response.data);
@@ -78,12 +79,25 @@ export default {
               }
           )
     },
-    deleteProduct(id) {
+    deleteProduct(id, /*index*/) {
       console.log("delete function called")
-      ProductService.deleteProduct(id);
+      ProductService.deleteProduct(id)
+          .then(
+              (response) => {
+                //console.log(response)
+                //this.products = response.data;
+                //this.products = JSON.stringify(response);
+                //this.products = JSON.stringify(response.data);
+                console.log(response)
+                this.getProducts()
+              })
+         /* .then(response => {
+            this.products.splice(index, 1)
+                .push(response.data);
+          })*/
       //funktioniert nicht perfekt. ladet erst
       //bei zweiten delete click die table neu
-      this.getProducts();
+      //ProductService.getProducts();
     }
   }
 
