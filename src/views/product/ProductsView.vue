@@ -1,5 +1,8 @@
 <template>
 
+  <!--error modal eifügen-->
+  <div>{{ errMessage }}</div>
+
   <table id="productsTable" class="table table-bordered table-striped" >
     <thead>
       <tr>
@@ -39,6 +42,7 @@ export default {
   data() {
     return {
       products: [],
+      errMessage : '',
       //möglich ohne exakt dieselbe schreibweise wie in datenbank
       fieldsHeader:
         {
@@ -61,6 +65,7 @@ export default {
       },
   methods: {
     getProducts() {
+      this.errMessage = '';
       ProductService.getProducts()
           .then(
               (response) => {
@@ -90,14 +95,15 @@ export default {
                 //this.products = JSON.stringify(response.data);
                 console.log(response)
                 this.getProducts()
+              },
+              (error) => {
+                this.errMessage = (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
               })
-         /* .then(response => {
-            this.products.splice(index, 1)
-                .push(response.data);
-          })*/
-      //funktioniert nicht perfekt. ladet erst
-      //bei zweiten delete click die table neu
-      //ProductService.getProducts();
+
     }
   }
 
