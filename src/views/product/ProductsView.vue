@@ -69,10 +69,6 @@ export default {
       ProductService.getProducts()
           .then(
               (response) => {
-                //console.log(response)
-                //this.products = response.data;
-                //this.products = JSON.stringify(response);
-                //this.products = JSON.stringify(response.data);
                 this.products = response;
               },
               (error) => {
@@ -89,10 +85,6 @@ export default {
       ProductService.deleteProduct(id)
           .then(
               (response) => {
-                //console.log(response)
-                //this.products = response.data;
-                //this.products = JSON.stringify(response);
-                //this.products = JSON.stringify(response.data);
                 console.log(response)
                 this.getProducts()
               },

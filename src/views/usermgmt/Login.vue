@@ -91,7 +91,10 @@ export default {
 
       this.$store.dispatch("auth/login", user).then(
           () => {
-            router.push("/home");
+            //router.push("/home");
+            //console.log(user)
+            console.log("user id: " + JSON.parse(localStorage.getItem('user')).id)
+            router.push("/myProfile/" + JSON.parse(localStorage.getItem('user')).id)
           },
           (error) => {
             this.loading = false;

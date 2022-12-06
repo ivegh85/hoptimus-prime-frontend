@@ -63,6 +63,12 @@ export default {
           id: 7,
           text: 'Auctions',
           page: '/AuctionsView'
+        },
+        {
+          id: 8,
+          text: 'My Profile',
+          page: '/MyProfile/' + JSON.parse(localStorage.getItem('user')).id,
+          props: true,
         }
       ]
     }

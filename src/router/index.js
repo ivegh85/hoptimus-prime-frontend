@@ -11,6 +11,7 @@ import NotFound from "@/views/NotFound";
 import AuctionsView from "@/views/auction/AuctionsView";
 import ProductDetails from "@/views/product/ProductDetails";
 import ProductEdit from "@/views/product/ProductEdit";
+import MyProfile from "@/views/usermgmt/MyProfile";
 
 
 const routes = [
@@ -25,15 +26,20 @@ const routes = [
         { path: '/productedit/:id', name: 'ProductEdit', component: ProductEdit, props: true},
         { path: '/auctionsView', name: 'AuctionsView', component: AuctionsView},
         { path: '/auctiondetails/:id', name: 'AuctionDetails', component: AuctionDetails },
+        { path: '/myProfile/:id', name: 'MyProfile', component: MyProfile, props: true},
 
         //404
         {path: '/:catchAll(.*)', name: 'NotFound', component: NotFound }
 
     ]
 
+
+
 const router = createRouter( {
     history: createWebHistory(process.env.BASE_URL),
     routes
 })
+
+
 
 export default router
