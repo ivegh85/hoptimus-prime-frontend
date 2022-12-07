@@ -8,11 +8,14 @@
           <img class="resize" src="../assets/beer.png" alt="Beer Icon by Freepik">
         </router-link>
           <div class="collapse navbar-collapse " id="navbarToggler">
-            <router-link class="nav-item nav-item-format navbar-nav mr-auto mt-2 mt-lg-0 " v-for="routes in links"
-                         v-bind:key="routes.id"
-                         :to="`${routes.page}`">
-              {{ routes.text }}
-            </router-link>
+            <div v-for="routes in filteredLinks"
+                 v-bind:key="routes.id">
+              <router-link class="nav-item nav-item-format navbar-nav mr-auto mt-2 mt-lg-0 "
+
+                           :to="`${routes.page}`">
+                {{ routes.text }}
+              </router-link>
+            </div>
           </div>
         <form class="collapse navbar-collapse" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -23,7 +26,7 @@
 </template>
 
 <script>
-
+import HelperService from "@/services/helper.service";
 export default {
   name: 'NavigationBar.vue',
   data() {
@@ -32,47 +35,63 @@ export default {
         {
           id: 1,
           text: 'Home',
-          page: '/'
+          page: '/',
+          permitted: true,
         },
         {
           id: 2,
           text: 'Registration',
-          page: '/registration'
+          page: '/registration',
+          permitted: true,
         },
         {
           id: 3,
           text: 'Login',
-          page: '/login'
+          page: '/login',
+          permitted: true,
         },
         {
           id: 4,
           text: 'Imprint',
-          page: '/imprint'
+          page: '/imprint',
+          permitted: true,
         },
         {
           id: 5,
           text: 'Help',
-          page: '/help'
+          page: '/help',
+          permitted: true,
         },
         {
           id: 6,
           text: 'Products',
-          page: '/ProductsView'
+          page: '/ProductsView',
+          permitted: true,
         },
         {
           id: 7,
           text: 'Auctions',
-          page: '/AuctionsView'
+          page: '/AuctionsView',
+          permitted: true,
         },
         {
           id: 8,
           text: 'My Profile',
           page: '/MyProfile/' + JSON.parse(localStorage.getItem('user')).id,
           props: true,
+          permitted: HelperService.permittedAdmin(),
         }
       ]
     }
+  },
+  computed: {
+    filteredLinks() {
+      return this.links.filter(links => {
+        return (links.permitted === true)
+      })
+    }
   }
+
 }
 </script>
 
