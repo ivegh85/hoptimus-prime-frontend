@@ -12,17 +12,17 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="product in products" v-bind:key="product.id">
+      <tr v-for="product in products" v-bind:key="product.productId">
         <td v-for="field in fields" :key="field">
           <router-link v-if="product.name" :to="{ name: 'ProductDetails', params: { id: product.productId, name: product.name, description: product.description }}">
             {{ product[field] }}
           </router-link>
         </td>
         <td>
-          <router-link class="btn btn-success" :to="{ name: 'ProductEdit', params: { id: product.productId }}">edit</router-link>
+          <router-link class="btn btn-success" v-if="product.name" :to="{ name: 'ProductEdit', params: { id: product.productId }}">edit</router-link>
         </td>
         <td>
-          <button class="btn btn-danger" @click="deleteProduct(product.productId, /*product.id*/)">delete</button>
+          <button class="btn btn-danger" v-if="product.name" @click="deleteProduct(product.productId, /*product.id*/)">delete</button>
         </td>
       </tr>
     </tbody>
@@ -57,7 +57,6 @@ export default {
       fields: ["productId", "name", "description", "category", "price", "unit"],
     }
   },
-
   mounted:
       function() {
         console.log("mounted")

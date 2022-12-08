@@ -1,14 +1,17 @@
 <template>
   <Navigation></Navigation>
   <router-view/>
+  <Footer></Footer>
 </template>
 
 <script>
 import NavigationBar from "@/components/NavigationBar";
+import FooterItem from "@/components/FooterItem";
 
 export default {
   name: 'App',
   components: {
+    'Footer': FooterItem,
     'Navigation': NavigationBar,
 
   },

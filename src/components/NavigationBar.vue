@@ -11,7 +11,6 @@
             <div v-for="routes in filteredLinks"
                  v-bind:key="routes.id">
               <router-link class="nav-item nav-item-format navbar-nav mr-auto mt-2 mt-lg-0 "
-
                            :to="`${routes.page}`">
                 {{ routes.text }}
               </router-link>
@@ -77,7 +76,7 @@ export default {
         {
           id: 8,
           text: 'My Profile',
-          page: '/MyProfile/' + JSON.parse(localStorage.getItem('user')).id,
+          page: '/MyProfile/' + this.getProfilePage(),
           props: true,
           permitted: HelperService.permittedAdmin(),
         }
@@ -89,9 +88,23 @@ export default {
       return this.links.filter(links => {
         return (links.permitted === true)
       })
+    },
+    //cache: false
+  },
+  onUpdate: {
+
+  },
+  methods: {
+    getProfilePage(){
+      let index = "";
+      if (localStorage.getItem('user') === null){
+        index = "";
+      }else{
+        index = JSON.parse(localStorage.getItem('user')).id;
+      }
+      return index;
     }
   }
-
 }
 </script>
 

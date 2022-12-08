@@ -1,10 +1,11 @@
 
 class HelperService {
     permittedAdmin(){
-        let user = JSON.parse(localStorage.getItem('user'));
-        console.log(user.roles.includes('ADMIN'))
-        return user.roles.includes('ADMIN');
-
+        if(localStorage.getItem('user') !== null){
+            let user = JSON.parse(localStorage.getItem('user'));
+            console.log(user.roles.includes('ADMIN'))
+            return user.roles.includes('ADMIN');
+        }
     }
 
     permitted() {
