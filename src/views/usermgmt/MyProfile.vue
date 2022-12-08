@@ -28,6 +28,7 @@ export default {
   },
   mounted:
   function(){
+    if(JSON.parse(localStorage.getItem('user')) != null)
     this.getMyProfileData(JSON.parse(localStorage.getItem('user')).id,);
   },
   methods: {

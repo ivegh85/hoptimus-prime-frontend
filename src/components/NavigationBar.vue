@@ -11,6 +11,7 @@
             <div v-for="routes in filteredLinks"
                  v-bind:key="routes.id">
               <router-link class="nav-item nav-item-format navbar-nav mr-auto mt-2 mt-lg-0 "
+                           v-if="routes.permitted"
                            :to="`${routes.page}`">
                 {{ routes.text }}
               </router-link>
@@ -25,7 +26,10 @@
 </template>
 
 <script>
-import HelperService from "@/services/helper.service";
+//import HelperService from "@/services/helper.service";
+import {ref} from "vue";
+//import store from "@/store";
+//import {mapGetters} from "vuex";
 export default {
   name: 'NavigationBar.vue',
   data() {
@@ -78,20 +82,24 @@ export default {
           text: 'My Profile',
           page: '/MyProfile/' + this.getProfilePage(),
           props: true,
-          permitted: HelperService.permittedAdmin(),
+          //permitted: HelperService.permittedAdmin(),
+          permitted: !!this.$store.state.auth.status.loggedIn
+
         }
       ]
     }
   },
   computed: {
+
     filteredLinks() {
       return this.links.filter(links => {
-        return (links.permitted === true)
+        return ref(links.permitted === true)
       })
     },
     //cache: false
+
   },
-  onUpdate: {
+  watch: {
 
   },
   methods: {
@@ -103,7 +111,7 @@ export default {
         index = JSON.parse(localStorage.getItem('user')).id;
       }
       return index;
-    }
+    },
   }
 }
 </script>

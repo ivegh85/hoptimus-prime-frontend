@@ -15,8 +15,10 @@ class HelperService {
 
     permittedUser(){
         let user = JSON.parse(localStorage.getItem('user'));
-        console.log(user)
-        console.log("user role "+user.roles)
+        if(user === null){
+            return false;
+        }
+        console.log(user.roles.includes('ADMIN') || user.roles.includes('USER'))
         return (user.roles.includes('ADMIN') || user.roles.includes('USER'));
 
 

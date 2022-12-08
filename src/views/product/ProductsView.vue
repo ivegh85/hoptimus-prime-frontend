@@ -1,17 +1,18 @@
 <template>
 
-  <!--error modal eifügen-->
-  <div>{{ errMessage }}</div>
+  <div>
+    <!--error modal eifügen-->
+    <div>{{ errMessage }}</div>
 
-  <table id="productsTable" class="table table-bordered table-striped" >
-    <thead>
+    <table v-if="isAuthorized" id="productsTable" class="table table-bordered table-striped" >
+      <thead>
       <tr>
         <th v-for="fieldsHeader in fieldsHeader" :key="fieldsHeader">
           {{ fieldsHeader }}
         </th>
       </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody >
       <tr v-for="product in products" v-bind:key="product.productId">
         <td v-for="field in fields" :key="field">
           <router-link v-if="product.name" :to="{ name: 'ProductDetails', params: { id: product.productId, name: product.name, description: product.description }}">
@@ -19,14 +20,16 @@
           </router-link>
         </td>
         <td>
-          <router-link class="btn btn-success" v-if="product.name" :to="{ name: 'ProductEdit', params: { id: product.productId }}">edit</router-link>
+          <router-link class="btn btn-success" :to="{ name: 'ProductEdit', params: { id: product.productId }}">edit</router-link>
         </td>
         <td>
-          <button class="btn btn-danger" v-if="product.name" @click="deleteProduct(product.productId, /*product.id*/)">delete</button>
+          <button class="btn btn-danger" @click="deleteProduct(product.productId, /*product.id*/)">delete</button>
         </td>
       </tr>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
+
 
 
 
@@ -35,12 +38,13 @@
 <script>
 
 import ProductService from "@/services/product.service";
-
+import HelperService from "@/services/helper.service";
 export default {
   name: "ProductsView.vue",
 
   data() {
     return {
+      isAuthorized: this.isAuthorizedToSeeProducts(),
       products: [],
       errMessage : '',
       //möglich ohne exakt dieselbe schreibweise wie in datenbank
@@ -95,6 +99,10 @@ export default {
                     error.toString();
               })
 
+    },
+    isAuthorizedToSeeProducts() {
+      console.log(HelperService.permittedUser())
+      return HelperService.permittedUser()
     }
   }
 
