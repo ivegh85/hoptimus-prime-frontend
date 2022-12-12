@@ -24,7 +24,7 @@ class MyProfileService {
 
     updateUser(user, id) {
         console.log("Update user function ")
-        //console.log("user id "+id)
+        console.log("user id "+ id)
         console.log(user)
         console.log(user.firstName)
 

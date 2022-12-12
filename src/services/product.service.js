@@ -45,6 +45,8 @@ class ProductService {
 
     }
     updateProduct(id, product) {
+        console.log(id)
+        console.log(product.name)
         return axios
             .put(API_URL + id, {
                 name: product.name,

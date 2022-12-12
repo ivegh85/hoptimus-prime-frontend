@@ -70,13 +70,8 @@
 
 <script>
 import MyProfileService from "@/services/myprofile.service";
-//import {Form, Field, ErrorMessage} from "vee-validate";
-//import * as yup from "yup";
 import SubmitButtonAtom from "@/atoms/SubmitButtonAtom";
 import AuctionService from "@/services/auction.service";
-//import axios from "axios";
-//import authHeader from "@/services/auth-header";
-//import authHeader from "@/services/auth-header";
 
 export default {
   name: "MyProfile",
@@ -84,32 +79,24 @@ export default {
     SubmitButtonAtom
   },
   data() {
-    /*const updateFormSchema = yup.object().shape({
-      username: yup.string().notRequired(),
-      email: yup.string().min(8, "Min 8 Characters"),
-      firstName: yup.string().min(3, "Min 3 Characters"),
-      lastName: yup.string().min(3, "Min 8 Characters"),
-      password: yup.string(),
-      role: yup.string().notRequired()
-        });*/
+
     return {
       user: [],
       auctions: [],
       filteredAuction: [],
-      username: '',
       errMessage: '',
-      //updateFormSchema,
+
     }
   },
   mounted:
   function(){
-    if(JSON.parse(localStorage.getItem('user')) != null)
-    this.getMyProfileData(JSON.parse(localStorage.getItem('user')).id,);
+    //if(JSON.parse(localStorage.getItem('user')) != null)
+    this.getMyProfileData();
     this.getAuctions()
-    //this.getAuctionByOwnerId()
   },
   methods: {
-    getMyProfileData(id) {
+    getMyProfileData() {
+      let id = this.getUserId();
       this.errMessage = '';
       MyProfileService.getUser(id)
           .then(
@@ -162,8 +149,9 @@ export default {
     },
     updateRequest(){
       let id = this.getUserId()
+      console.log(id)
       let user = this.user
-      MyProfileService.updateUser(id, user)
+      MyProfileService.updateUser(user, id)
           .then((response) => {
                 console.log(id)
                 console.log(user)
@@ -178,32 +166,7 @@ export default {
                     error.toString();
               })
     }
-   /* updateRequest(updateFormSchema) {
-      let id = this.getUserId()
-      console.log("updateRequest")
-      console.log(id)
-      console.log(updateFormSchema.firstName)
-      console.log(JSON.stringify(updateFormSchema))
-      console.log("updateformschema "+updateFormSchema)
-      let username = JSON.parse(localStorage.getItem('user')).username
-      let role = JSON.parse(localStorage.getItem('user')).roles[0]
-      //console.log(JSON.parse(updateFormSchema))
-        MyProfileService.updateUser(updateFormSchema, username, role, id)
-            .then(
-                (response) => {
-                  console.log("here")
-                  console.log(response)
-                  this.user = response;
-                },
-                (error) => {
-                  this.errMessage = (error.response &&
-                          error.response.data &&
-                          error.response.data.message) ||
-                      error.message ||
-                      error.toString();
-                }
-            )
-    }*/
+
   }
 }
 </script>
