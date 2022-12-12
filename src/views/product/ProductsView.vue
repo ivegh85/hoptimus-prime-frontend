@@ -15,7 +15,7 @@
       <tbody >
       <tr v-for="product in products" v-bind:key="product.productId">
         <td v-for="field in fields" :key="field">
-          <router-link v-if="product.name" :to="{ name: 'ProductDetails', params: { id: product.productId, name: product.name, description: product.description }}">
+          <router-link v-if="product.name" :to="{ name: 'ProductDetails', params: { id: product.productId, name: product.name }}">
             {{ product[field] }}
           </router-link>
         </td>

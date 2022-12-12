@@ -19,68 +19,59 @@
     <p>Product: {{ filteredAuction.product }}</p>
   </div>
 
-  <Form @submit="updateRequest" :validation-schema="updateFormSchema">
     <div class="form-group">
       <div>
         <label for="email" class="little-space">Email</label>
-        <Field
+        <input
             id="email"
             name="email"
             placeholder="Email"
             class="form-control"
             v-model="user.email">
-        </Field>
-        <ErrorMessage name="email" class="error-feedback"></ErrorMessage>
+        />
       </div>
       <div>
         <label for="firstName" class="little-space">First Name</label>
-        <Field
+        <input
             id="firstName"
             name="firstName"
             placeholder="FirstName"
             class="form-control"
-            v-model="user.firstName">
-        </Field>
-        <ErrorMessage name="firstName" class="error-feedback"></ErrorMessage>
+            v-model="user.firstName"/>
       </div>
       <div>
         <label for="lastName" class="little-space">Last Name</label>
-        <Field
+        <input
             id="lastName"
             name="lastName"
             placeholder="LastName"
             class="form-control"
-            v-model="user.lastName">
-        </Field>
-        <ErrorMessage name="lastName" class="error-feedback"></ErrorMessage>
+            v-model="user.lastName"/>
       </div>
       <div>
         <label for="password" class="little-space">Passwort</label>
-        <Field
+        <input
             id="password"
             name="password"
             placeholder="password"
             class="form-control"
-            v-model="user.password">
-        </Field>
-        <ErrorMessage name="lastName" class="error-feedback"></ErrorMessage>
+            v-model="user.password"/>
       </div>
 
       <div class="row-mb-4">
         <div class="text-center">
-          <SubmitButtonAtom></SubmitButtonAtom>
+          <SubmitButtonAtom @click="updateRequest"></SubmitButtonAtom>
         </div>
       </div>
     </div>
-  </Form>
 
 
 </template>
 
 <script>
 import MyProfileService from "@/services/myprofile.service";
-import {Form, Field, ErrorMessage} from "vee-validate";
-import * as yup from "yup";
+//import {Form, Field, ErrorMessage} from "vee-validate";
+//import * as yup from "yup";
 import SubmitButtonAtom from "@/atoms/SubmitButtonAtom";
 import AuctionService from "@/services/auction.service";
 //import axios from "axios";
@@ -90,27 +81,24 @@ import AuctionService from "@/services/auction.service";
 export default {
   name: "MyProfile",
   components: {
-    Form,
-    Field,
-    ErrorMessage,
     SubmitButtonAtom
   },
   data() {
-    const updateFormSchema = yup.object().shape({
+    /*const updateFormSchema = yup.object().shape({
       username: yup.string().notRequired(),
       email: yup.string().min(8, "Min 8 Characters"),
       firstName: yup.string().min(3, "Min 3 Characters"),
       lastName: yup.string().min(3, "Min 8 Characters"),
       password: yup.string(),
       role: yup.string().notRequired()
-        });
+        });*/
     return {
       user: [],
       auctions: [],
       filteredAuction: [],
       username: '',
       errMessage: '',
-      updateFormSchema,
+      //updateFormSchema,
     }
   },
   mounted:
@@ -172,8 +160,25 @@ export default {
           }
       )
     },
-
-    updateRequest(updateFormSchema) {
+    updateRequest(){
+      let id = this.getUserId()
+      let user = this.user
+      MyProfileService.updateUser(id, user)
+          .then((response) => {
+                console.log(id)
+                console.log(user)
+                console.log(response)
+                this.user = response
+              },
+              (error) => {
+                this.errMessage = (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+              })
+    }
+   /* updateRequest(updateFormSchema) {
       let id = this.getUserId()
       console.log("updateRequest")
       console.log(id)
@@ -198,7 +203,7 @@ export default {
                       error.toString();
                 }
             )
-    }
+    }*/
   }
 }
 </script>

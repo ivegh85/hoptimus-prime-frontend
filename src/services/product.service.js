@@ -22,8 +22,20 @@ class ProductService {
             })
             ;
     }
+
+    getProductById(id){
+        return axios
+            .get(API_URL + id,{headers: authHeader()})
+            .then(response => {
+
+                console.log(response.data);
+                return response.data;
+
+            })
+    }
+
     deleteProduct( id ) {
-        console.log(API_URL + id)
+        //console.log(API_URL + id)
         return axios
             .delete(API_URL + id, { headers: authHeader() })
           /*  .then(function (response) {
@@ -32,8 +44,21 @@ class ProductService {
 
 
     }
-    updateProduct() {
+    updateProduct(id, product) {
+        return axios
+            .put(API_URL + id, {
+                name: product.name,
+                description: product.description,
+                category: product.category,
+                price: product.price,
+                unit: product.unit
+            },
+                {headers: authHeader()})
+            .then(response => {
 
+                console.log(response.data)
+                return response.data
+            })
     }
 }
 

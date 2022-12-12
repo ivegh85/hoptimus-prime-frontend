@@ -22,22 +22,21 @@ class MyProfileService {
             })
     }
 
-    updateUser(user, username, role, id) {
+    updateUser(user, id) {
         console.log("Update user function ")
         //console.log("user id "+id)
         console.log(user)
         console.log(user.firstName)
-        console.log(username)
-        console.log(role)
+
         //console.log("user "+email)
         return axios
             .put(API_URL + id, {
-                username: username,
+                username: user.username,
                 email: user.email,
-                firstname: user.firstName,
-                lastname: user.lastName,
+                firstName: user.firstName,
+                lastName: user.lastName,
                 password: user.password,
-                role: role
+                role: user.role
             },
                 {headers: authHeader()})
             .then(response => {
@@ -45,9 +44,9 @@ class MyProfileService {
                 console.log(response.data)
                 return response.data
             })
-            .catch(function (error){
+           /* .catch(function (error){
                 console.log(error)
-            })
+            })*/
 
     }
 
