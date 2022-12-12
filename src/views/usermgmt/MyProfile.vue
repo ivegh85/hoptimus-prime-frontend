@@ -55,7 +55,7 @@
             name="password"
             placeholder="password"
             class="form-control"
-            v-model="user.password"/>
+            />
       </div>
 
       <div class="row-mb-4">
