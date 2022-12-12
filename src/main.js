@@ -1,13 +1,13 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from "@/router";
-import axios from "axios";
 import store from "@/store";
 
 import 'bootstrap/dist/css/bootstrap.css'
 
 createApp(App)
-    .use(router, axios)
+    //Check this out at home second is passed as an option
+    .use(router)
     .use(store)
     .mount('#app')
 

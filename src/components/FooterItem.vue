@@ -1,31 +1,88 @@
 <template>
-  <footer class="bg-light text-black text-center">
-    <button class="btn btn-danger" @click="logout">
-      Logout
-    </button>
+  <div class="footer-basic">
+  <footer>
+    <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i
+        class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i
+        class="icon ion-social-facebook"></i></a></div>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Home</a></li>
+      <li class="list-inline-item"><a href="#">Services</a></li>
+      <li class="list-inline-item"><a href="#">Imprint</a></li>
+      <li class="list-inline-item"><a href="#">Help</a></li>
+    </ul>
+    <p class="copyright">Webengineering Gods © 2022</p>
   </footer>
+  </div>
 </template>
 
 <script>
-import AuthService from "@/services/auth.service";
+
 export default {
   name: "FooterItem",
-  methods: {
-    logout() {
-      console.log("logout")
-      console.log(JSON.parse(localStorage.getItem('user')))
-      AuthService.logout()
-      console.log(JSON.parse(localStorage.getItem('user')))
-    }
-  }
+  methods: {}
 }
 </script>
 
 <style scoped>
-footer {
+
+.footer-basic {
   z-index: 1;
   position: fixed;
   bottom: 0;
   width: 100%;
+}
+
+.footer-basic ul {
+  padding:0;
+  list-style:none;
+  text-align:center;
+  font-size:18px;
+  line-height:1.6;
+  margin-bottom:0;
+}
+
+.footer-basic li {
+  padding:0 10px;
+}
+
+.footer-basic ul a {
+  color:inherit;
+  text-decoration:none;
+  opacity:0.8;
+}
+
+.footer-basic ul a:hover {
+  opacity:1;
+}
+
+.footer-basic .social {
+  text-align:center;
+  padding-bottom:25px;
+}
+
+.footer-basic .social > a {
+  font-size:24px;
+  width:40px;
+  height:40px;
+  line-height:40px;
+  display:inline-block;
+  text-align:center;
+  border-radius:50%;
+  border:1px solid #ccc;
+  margin:0 8px;
+  color:inherit;
+  opacity:0.75;
+}
+
+.footer-basic .social > a:hover {
+  opacity:0.9;
+}
+
+.footer-basic .copyright {
+  margin-top:15px;
+  text-align:center;
+  font-size:13px;
+  color:#aaa;
+  margin-bottom:0;
 }
 </style>
