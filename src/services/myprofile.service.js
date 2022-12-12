@@ -22,6 +22,35 @@ class MyProfileService {
             })
     }
 
+    updateUser(user, username, role, id) {
+        console.log("Update user function ")
+        //console.log("user id "+id)
+        console.log(user)
+        console.log(user.firstName)
+        console.log(username)
+        console.log(role)
+        //console.log("user "+email)
+        return axios
+            .put(API_URL + id, {
+                username: username,
+                email: user.email,
+                firstname: user.firstName,
+                lastname: user.lastName,
+                password: user.password,
+                role: role
+            },
+                {headers: authHeader()})
+            .then(response => {
+
+                console.log(response.data)
+                return response.data
+            })
+            .catch(function (error){
+                console.log(error)
+            })
+
+    }
+
 }
 
 export default new MyProfileService();
