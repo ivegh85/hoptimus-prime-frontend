@@ -2,29 +2,34 @@
 
   <div class="login-page">
     <div class="background-login"></div>
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
           <div class="card-login">
             <h1>Sign in</h1>
             <Form @submit="loginRequest" :validation-schema="loginFormSchema">
               <div class="form-group">
-                <label for="loginuname">Username</label>
-                <Field
-                    id="loginuname"
-                    name="loginuname"
-                    placeholder="Username"
-                    class="form-control">
-                </Field>
-                <ErrorMessage name="loginuname" class="alert-danger"></ErrorMessage>
-                <label for="password">Password</label>
-                <Field
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    class="form-control">
-                </Field>
-                <ErrorMessage name="password" class="alert-danger"></ErrorMessage>
+                <div>
+                  <label for="loginuname" class="little-space">Username</label>
+                  <Field
+                      id="loginuname"
+                      name="loginuname"
+                      placeholder="Username"
+                      class="form-control">
+                  </Field>
+                  <ErrorMessage name="loginuname" class="error-feedback"></ErrorMessage>
+                </div>
+                <div class="little-space">
+                  <label for="password" class="little-space">Password</label>
+                  <Field
+                      id="password"
+                      name="password"
+                      type="password"
+                      placeholder="Password"
+                      class="form-control">
+                  </Field>
+                  <ErrorMessage name="password" class="error-feedback"></ErrorMessage>
+                </div>
                 <div class="row-mb-4">
                   <div class="form-check-inline">
                     <RememberMeBoxAtom></RememberMeBoxAtom>
@@ -36,9 +41,9 @@
                 </div>
               </div>
               <div class="form-group">
-                <div v-if="message" class="alert alert-danger" role="alert">
+                <ErrorModal title="Oops, login error" :open="this.message !== '' && this.loading === false ? !isOpen : isOpen" @close="isOpen = !isOpen">
                   {{ message }}
-                </div>
+                </ErrorModal>
               </div>
             </Form>
           </div>
@@ -54,17 +59,19 @@ import RememberMeBoxAtom from "@/atoms/RememberMeBoxAtom";
 import SubmitButtonAtom from "@/atoms/SubmitButtonAtom";
 import NotAMemberAtom from "@/atoms/NotAMemberAtom";
 import * as yup from "yup";
-import { Form, Field, ErrorMessage } from "vee-validate";
+import {Form, Field, ErrorMessage} from "vee-validate";
 import router from "@/router";
+import ErrorModal from "@/components/ErrorModal";
+import {ref} from "vue";
 
 export default {
 // eslint-disable-next-line vue/multi-word-component-names
   name: "Login.vue",
-  data () {
+  data() {
     //schema for validation
     const loginFormSchema = yup.object().shape({
-      loginuname: yup.string().min(3, "Min 3 Characters" ).max(20, "Max 20 Characters" ).required("Email is mandatory!"),
-      password: yup.string().min(8, "Min 8 Characters").required("Password is mandatory!"),
+      loginuname: yup.string().min(3, "Min 3 Characters").max(20, "Max 20 Characters").required("Username is required"),
+      password: yup.string().min(8, "Min 8 Characters").required("Password is required"),
     });
     return {
       loading: false,
@@ -82,25 +89,34 @@ export default {
 
       this.loading = true;
 
-      this.$store.dispatch("auth/login", user).then (
+      this.$store.dispatch("auth/login", user).then(
           () => {
-            router.push("/home");
+            //router.push("/home");
+            //console.log(user)
+            console.log("user id: " + JSON.parse(localStorage.getItem('user')).id)
+            router.push("/myProfile/" + JSON.parse(localStorage.getItem('user')).id)
           },
           (error) => {
             this.loading = false;
             this.message = (error.response && error.response.data && error.response.data.message) ||
                 error.message || error.toString();
+            this.loading = false;
           }
       )
     },
   },
   components: {
+    'ErrorModal': ErrorModal,
     'SubmitButtonAtom': SubmitButtonAtom,
     'RememberMeBoxAtom': RememberMeBoxAtom,
     'NotAMemberAtom': NotAMemberAtom,
     'Form': Form,
     'ErrorMessage': ErrorMessage,
     'Field': Field
+  },
+  setup(){
+    const isOpen = ref(false)
+    return { isOpen }
   },
 }
 
@@ -119,15 +135,19 @@ export default {
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0,0,0,.125);
+  border: 1px solid rgba(0, 0, 0, .125);
   border-radius: 0.25rem;
+}
+
+.little-space {
+  margin-bottom: 10px;
 }
 
 .form-group {
   margin-bottom: 20px;
 }
 
-.form-control{
+.form-control {
   margin-bottom: 20px;
 }
 
@@ -143,11 +163,16 @@ export default {
 }
 
 .background-login {
-  background: url(../../assets/pexels-anna-kapustina-1324896.jpg) no-repeat center center;
+  background: url(../../assets/pexels-anna-kapustina-1324896.png) no-repeat center center;
   background-size: cover;
   height: 100%;
   position: absolute;
   width: 100%;
+}
+
+.error-feedback {
+  color: #DC3545;
+  margin-bottom: 10px;
 }
 
 </style>
